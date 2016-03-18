@@ -102,7 +102,7 @@ def run(command, capture=False, shell=None):
     out.failed = False
     out.return_code = p.returncode
     out.stderr = err
-    if p.returncode not in env.ok_ret_codes:
+    if p.returncode != 0:
         out.failed = True
         msg = "local() encountered an error (return code %s) while executing '%s'" % (p.returncode, command)
         msg += '\n'
@@ -128,7 +128,7 @@ def version():
 @click.option('--conf', default='./beeper.yml')
 def build(version, conf):
     conf = parse_yaml(conf)
-    conf['current_dir']= pwd()
+    conf['current_dir']= run('pwd')
     conf['version'] = version
     conf.setdefault('branch', 'master')
     conf.setdefault('python', 'python')

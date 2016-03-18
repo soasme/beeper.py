@@ -26,6 +26,12 @@ $ beeper --version b3d53cf
 ...
 $ ls dist/
 app-b3d53cf.tar
+$ tar -tvf dist/app-b3d53cf.tar
+app/
+manage.py
+venv/
+venv/share/
+...
 ```
 
 ## Distribute your application to server

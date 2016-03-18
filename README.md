@@ -22,7 +22,7 @@ Example
 ```
 $ ls
 app  beeper.yml manage.py
-$ beeper --version b3d53cf
+$ beeper build --version b3d53cf
 ...
 $ ls dist/
 app-b3d53cf.tar

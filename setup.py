@@ -13,7 +13,7 @@ setup(
     author_email='soasme@gmail.com',
     description='Bundle virtualenv and project to an artifact.',
     long_description=__doc__,
-    packages=['beeper'],
+    py_modules=['beeper'],
     zip_safe=False,
     include_package_data=True,
     platforms='any',

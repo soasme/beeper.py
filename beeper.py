@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+__version__ = '0.1'
+
 import yaml
 import os
 import click
@@ -112,7 +114,16 @@ def run(command, capture=False, shell=None):
     # If we were capturing, this will be a string; otherwise it will be None.
     return out
 
-@click.command()
+
+@click.group()
+def cli():
+    pass
+
+@cli.command()
+def version():
+    print(__version__)
+
+@cli.command()
 @click.option('--version')
 @click.option('--conf', default='./beeper.yml')
 def build(version, conf):
@@ -149,4 +160,4 @@ def build(version, conf):
     run('ls dist/')
 
 if __name__ == '__main__':
-    build()
+    cli()

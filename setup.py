@@ -23,7 +23,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'beeper = beeper:build'
+            'beeper = beeper:cli'
         ]
     },
     classifiers=[

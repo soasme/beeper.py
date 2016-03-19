@@ -12,7 +12,7 @@ manifest:
     - manage.py
 scripts:
     - npm install
-    - node_modules/fis/bin/fis release -r app/frontend/  -f app/frontend/fis-conf.js -mpod ./zion
+    - node_modules/fis/bin/fis release -r app/frontend/  -f app/frontend/fis-conf.js -mpod ./app
 ```
 
 ## Run build process

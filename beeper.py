@@ -43,7 +43,7 @@ command -v "$PY" &> /dev/null || error "Given python interpreter not found ($PY)
 # Relocate env
 rm -rf $HERE/venv/bin/python*
 $PY $HERE/venv/bin/virtualenv-tools --reinitialize $HERE/venv
-$PY $HERE/venv/bin/virtualenv-tools --update-path $HERE venv
+$PY $HERE/venv/bin/virtualenv-tools --update-path $HERE/venv venv
 
 # Potential post installation
 cd "$HERE"

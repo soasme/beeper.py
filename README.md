@@ -4,6 +4,12 @@ Bundling virtualenv and your project as a relocatable tar.
 
 That makes you have an enjoyment of deploy experience: fetch tar, extract tar, run install, and it' done!
 
+## Install
+
+Use pip:
+
+    $ pip install beeper
+
 ## Writer your `beeper.yml`
 
 Example:

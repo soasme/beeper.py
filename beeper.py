@@ -2,12 +2,13 @@
 
 __version__ = '0.3.2'
 
+import subprocess, os, sys
 import yaml
 import os
 import click
 
 
-class cd:
+class cd(object):
     """Context manager for changing the current working directory"""
     def __init__(self, newPath):
         self.newPath = os.path.expanduser(newPath)
@@ -49,11 +50,11 @@ $PY $HERE/venv/bin/virtualenv-tools --update-path $HERE/venv venv
 cd "$HERE"
 . "$VIRTUAL_ENV/bin/activate"
 
-%(postinstall)s
+%(postinstall_commands)s
 
 echo "Done."
 """
-import subprocess, os, sys
+
 
 class _AttributeString(str):
     """
@@ -133,7 +134,7 @@ def build(version, conf):
     conf['version'] = version
     conf.setdefault('branch', 'master')
     conf.setdefault('python', 'python')
-    conf.setdefault('postinstall', '')
+    conf.setdefault('postinstall', [])
     conf.setdefault('manifest', set())
     conf['manifest'] = set(conf['manifest'])
 
@@ -148,6 +149,7 @@ def build(version, conf):
     run('chmod +x venv/bin/virtualenv-tools')
 
     with open('install.sh', 'wb') as f:
+        conf.setdefault('postinstall_commands', '\n'.join(conf.get('postinstall')))
         f.write(INSTALLER % conf)
 
     for script in (conf.get('scripts') or []):

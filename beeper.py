@@ -137,8 +137,10 @@ def build(version, conf):
 
     conf.setdefault('python', 'python')
     conf.setdefault('postinstall', [])
+    conf.setdefault('postinstall_commands', '\n'.join(conf.get('postinstall')))
     conf.setdefault('manifest', set())
     conf.setdefault('current_dir', run('pwd'))
+    conf.setdefault('scripts', [])
     conf['version'] = version
     conf['manifest'] = set(conf['manifest'])
 
@@ -151,10 +153,9 @@ def build(version, conf):
     run('./venv/bin/pip install -r requirements.txt')
 
     with open('install.sh', 'wb') as f:
-        conf.setdefault('postinstall_commands', '\n'.join(conf.get('postinstall')))
         f.write(INSTALLER % conf)
 
-    for script in (conf.get('scripts') or []):
+    for script in conf['scripts']:
         run(script)
 
     conf['manifest'].add('venv')

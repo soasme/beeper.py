@@ -147,10 +147,8 @@ def build(version, conf):
 
     run('mkdir -p ./venv')
     run('virtualenv --distribute ./venv')
-    run('./venv/bin/pip install -U pip')
+    run('./venv/bin/pip install -U pip virtualenv-tools')
     run('./venv/bin/pip install -r requirements.txt')
-    run('curl %s -o venv/bin/virtualenv-tools' % VENV_TOOLS_URL)
-    run('chmod +x venv/bin/virtualenv-tools')
 
     with open('install.sh', 'wb') as f:
         conf.setdefault('postinstall_commands', '\n'.join(conf.get('postinstall')))

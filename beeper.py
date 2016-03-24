@@ -137,7 +137,6 @@ def build(version, conf):
 
     conf['current_dir']= run('pwd')
     conf['version'] = version
-    conf.setdefault('branch', 'master')
     conf.setdefault('python', 'python')
     conf.setdefault('postinstall', [])
     conf.setdefault('manifest', set())

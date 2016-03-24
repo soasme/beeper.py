@@ -139,8 +139,8 @@ def build(version, conf):
     conf.setdefault('postinstall', [])
     conf.setdefault('manifest', set())
     conf.setdefault('current_dir', run('pwd'))
-    conf.setdefault('version', '')
-    conf.setdefault('manifest', set(conf['manifest']))
+    conf['version'] = version
+    conf['manifest'] = set(conf['manifest'])
 
     run('rm -rf venv/ dist/')
     run('mkdir -p dist/')

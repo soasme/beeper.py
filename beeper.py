@@ -135,12 +135,12 @@ def build(version, conf):
         print('Missing configuration. Did you put a `beeper.yml` file?')
         conf = {}
 
-    conf['current_dir']= run('pwd')
-    conf['version'] = version
     conf.setdefault('python', 'python')
     conf.setdefault('postinstall', [])
     conf.setdefault('manifest', set())
-    conf['manifest'] = set(conf['manifest'])
+    conf.setdefault('current_dir', run('pwd'))
+    conf.setdefault('version', '')
+    conf.setdefault('manifest', set(conf['manifest']))
 
     run('rm -rf venv/ dist/')
     run('mkdir -p dist/')

@@ -3,7 +3,6 @@
 __version__ = '0.3.3'
 
 import subprocess, os, sys
-import yaml
 import os
 import click
 
@@ -22,6 +21,7 @@ class cd(object):
 
 
 def parse_yaml(file):
+    import yaml
     with open(file, 'rb') as f:
         return yaml.load(f.read())
 
@@ -129,7 +129,12 @@ def version():
 @click.option('--version')
 @click.option('--conf', default='./beeper.yml')
 def build(version, conf):
-    conf = parse_yaml(conf)
+    try:
+        conf = parse_yaml(conf)
+    except:
+        print('Missing configuration. Did you put a `beeper.yml` file?')
+        conf = {}
+
     conf['current_dir']= run('pwd')
     conf['version'] = version
     conf.setdefault('branch', 'master')

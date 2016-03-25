@@ -40,7 +40,7 @@ def run(command, capture=False, shell=None):
     ## with_env = _prefix_env_vars(command, local=True)
     #wrapped_command = _prefix_commands(with_env, 'local')
     wrapped_command = given_command
-    print("[command]: %s" % (wrapped_command))
+    click.secho("[command]: %s" % (wrapped_command), fg='green')
     #print("[localhost] local: " + given_command)
     # Tie in to global output controls as best we can; our capture argument
     # takes precedence over the output settings.
@@ -84,19 +84,26 @@ def run(command, capture=False, shell=None):
 def main():
     pass
 
+
 @main.command()
 def version():
-    print(__version__)
+    click.secho(__version__, fg='green')
+
 
 @main.command()
 @click.option('--version')
+@click.option('--compress/--no-compress', default=True)
 @click.option('--conf', default='./beeper.yml')
-def build(version, conf):
+def build(version, compress, conf):
     try:
         conf = parse_yaml(conf)
     except:
-        print('Missing configuration. Did you put a `beeper.yml` file?')
-        conf = {}
+        click.secho(
+            'Missing configuration. Did you put a `beeper.yml` file?',
+            blink=True,
+            fg='red'
+        )
+        sys.exit(1)
 
     conf.setdefault('python', 'python')
     conf.setdefault('postinstall', [])
@@ -113,7 +120,6 @@ def build(version, conf):
     with open('install.sh', 'wb') as f:
         f.write(INSTALLER % conf)
 
-
     run('chmod +x install.sh')
 
     run('rm -rf .beeper-data && mkdir -p .beeper-data')
@@ -125,11 +131,17 @@ def build(version, conf):
     for script in conf['scripts']:
         run(script)
 
-    #conf['manifest'].add('venv')
-    conf['manifest'].add('install.sh')
-    conf['manifest'].add('.beeper-data')
-    conf['manifest_files'] = ' '.join(conf['manifest'])
-    run('tar -cf dist/%(application)s-%(version)s.tar %(manifest_files)s' % conf)
+    manifest_files = ' '.join(
+        conf['manifest'] | set(['install.sh', '.beeper-data'])
+    )
+    archive_cmd = 'tar -c{z}f dist/{app}-{ver}.{suffix} {files}'.format(
+        z='z' if compress else '',
+        app=conf['application'],
+        ver=conf['version'],
+        suffix='tgz' if compress else 'tar',
+        files=manifest_files,
+    )
+    run(archive_cmd)
     run('rm -rf venv')
     run('ls dist/')
 

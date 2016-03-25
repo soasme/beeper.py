@@ -37,10 +37,7 @@ set -e
 HERE="$(cd "$(dirname .)"; pwd)"
 DATA_DIR=$HERE/.beeper-data
 PY="python"
-VIRTUAL_ENV=$1
-if [[ -z $VIRTUAL_ENV ]]; then
-  VIRTUAL_ENV=$HERE/venv
-fi
+VIRTUAL_ENV=$HERE/venv
 
 # Ensure Python exists
 command -v "$PY" &> /dev/null || error "Given python interpreter not found ($PY)"

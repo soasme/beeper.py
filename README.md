@@ -44,7 +44,7 @@ app  beeper.yml manage.py
 $ beeper build --version b3d53cf
 ...
 
-$ tar -tvf dist/app-b3d53cf.tar
+$ tar -tzvf dist/app-b3d53cf.tgz
 app/
 .beeper-data/
   virtualenv.py
@@ -58,6 +58,6 @@ manage.py
 A simple example of how to deploy a tar: use scp to upload tar to server, extract tar, run install.sh, and boom, run your server:
 
 ```
-$ scp ./dist/app-b3d53cf.tar deploy@your-server:/var/www/app/app-b3d53cf.tar
-$ ssh deploy@your-server /bin/bash -c "cd /var/www/app/; tar xf app-b3d53cf.tar; ./install.sh; venv/bin/python manage.py runserver"
+$ scp ./dist/app-b3d53cf.tgz deploy@your-server:/var/www/app/app-b3d53cf.tgz
+$ ssh deploy@your-server /bin/bash -c "cd /var/www/app/; tar xzf app-b3d53cf.tgz; ./install.sh; venv/bin/python manage.py runserver"
 ```

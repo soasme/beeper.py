@@ -84,14 +84,17 @@ def run(command, capture=False, shell=None):
 def main():
     pass
 
+
 @main.command()
 def version():
     click.secho(__version__, fg='green')
 
+
 @main.command()
 @click.option('--version')
+@click.option('--compress/--no-compress', default=True)
 @click.option('--conf', default='./beeper.yml')
-def build(version, conf):
+def build(version, compress, conf):
     try:
         conf = parse_yaml(conf)
     except:
@@ -117,7 +120,6 @@ def build(version, conf):
     with open('install.sh', 'wb') as f:
         f.write(INSTALLER % conf)
 
-
     run('chmod +x install.sh')
 
     run('rm -rf .beeper-data && mkdir -p .beeper-data')
@@ -129,11 +131,17 @@ def build(version, conf):
     for script in conf['scripts']:
         run(script)
 
-    #conf['manifest'].add('venv')
-    conf['manifest'].add('install.sh')
-    conf['manifest'].add('.beeper-data')
-    conf['manifest_files'] = ' '.join(conf['manifest'])
-    run('tar -cf dist/%(application)s-%(version)s.tar %(manifest_files)s' % conf)
+    manifest_files = ' '.join(
+        conf['manifest'] | set(['install.sh', '.beeper-data'])
+    )
+    archive_cmd = 'tar -c{z}f dist/{app}-{ver}.{suffix} {files}'.format(
+        z='z' if compress else '',
+        app=conf['application'],
+        ver=conf['version'],
+        suffix='tgz' if compress else 'tar',
+        files=manifest_files,
+    )
+    run(archive_cmd)
     run('rm -rf venv')
     run('ls dist/')
 

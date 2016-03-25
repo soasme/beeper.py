@@ -1,5 +1,7 @@
 # beeper.py
 
+[![Join the chat at https://gitter.im/soasme/beeper.py](https://badges.gitter.im/soasme/beeper.py.svg)](https://gitter.im/soasme/beeper.py?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Bundling virtualenv and your project as a relocatable tar.
 
 That makes you have an enjoyment of deploy experience: fetch tar, extract tar, run install, and it' done!

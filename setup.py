@@ -13,7 +13,6 @@ setup(
     author_email='soasme@gmail.com',
     description='Bundle virtualenv and project to an artifact.',
     long_description=__doc__,
-    py_modules=['beeper'],
     zip_safe=False,
     include_package_data=True,
     platforms='any',
@@ -21,9 +20,13 @@ setup(
         'click>=1.0',
         'PyYAML>=3.11',
     ],
+    packages=['beeper'],
+    package_data={
+        "": ["installer.sh"]
+    },
     entry_points={
         'console_scripts': [
-            'beeper = beeper:cli'
+            'beeper = beeper.cmd:main'
         ]
     },
     classifiers=[

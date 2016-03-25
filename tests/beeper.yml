@@ -1,6 +1,6 @@
 application: test
 manifest:
-  - hello.py
+  - tests/hello.py
 scripts:
   - echo BEEPER > .beeper-data/MESSAGE
 postinstall:

@@ -1,0 +1,7 @@
+application: test
+manifest:
+  - hello.py
+scripts:
+  - echo BEEPER > .beeper-data/MESSAGE
+postinstall:
+  - cp .beeper-data/MESSAGE .

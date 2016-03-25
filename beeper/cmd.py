@@ -40,7 +40,7 @@ def run(command, capture=False, shell=None):
     ## with_env = _prefix_env_vars(command, local=True)
     #wrapped_command = _prefix_commands(with_env, 'local')
     wrapped_command = given_command
-    print("[command]: %s" % (wrapped_command))
+    click.secho("[command]: %s" % (wrapped_command), fg='green')
     #print("[localhost] local: " + given_command)
     # Tie in to global output controls as best we can; our capture argument
     # takes precedence over the output settings.
@@ -86,7 +86,7 @@ def main():
 
 @main.command()
 def version():
-    print(__version__)
+    click.secho(__version__, fg='green')
 
 @main.command()
 @click.option('--version')
@@ -95,8 +95,12 @@ def build(version, conf):
     try:
         conf = parse_yaml(conf)
     except:
-        print('Missing configuration. Did you put a `beeper.yml` file?')
-        conf = {}
+        click.secho(
+            'Missing configuration. Did you put a `beeper.yml` file?',
+            blink=True,
+            fg='red'
+        )
+        sys.exit(1)
 
     conf.setdefault('python', 'python')
     conf.setdefault('postinstall', [])

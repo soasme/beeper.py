@@ -94,7 +94,7 @@ def version():
 
 
 @main.command()
-@click.option('--version')
+@click.option('--version', default='none')
 @click.option('--compress/--no-compress', default=True)
 @click.option('--conf', default='./beeper.yml')
 def build(version, compress, conf):

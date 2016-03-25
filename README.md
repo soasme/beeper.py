@@ -33,21 +33,24 @@ postinstall:
 
 ## Run build process
 
-`beeper build` is the most important command. It will run scripts, pack all of the `manifest` files and venv into a tar.
+`beeper build` is the most important command. It will run scripts, pack all of the `manifest` files and wheels into a tar.
 
 Example
 
 ```
 $ ls
 app  beeper.yml manage.py
+
 $ beeper build --version b3d53cf
 ...
+
 $ tar -tvf dist/app-b3d53cf.tar
 app/
+.beeper-data/
+  virtualenv.py
+  requirements.txt
+  ...
 manage.py
-venv/
-venv/share/
-...
 ```
 
 ## Distribute your application to server

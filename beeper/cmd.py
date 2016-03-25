@@ -9,7 +9,10 @@ import click
 
 
 def parse_yaml(file):
-    import yaml
+    try:
+        import yaml
+    except ImportError:
+        click.abort('Have you installed PyYAML?')
     with open(file, 'rb') as f:
         return yaml.load(f.read())
 

@@ -3,7 +3,7 @@
 [![Join the chat at https://gitter.im/soasme/beeper.py](https://badges.gitter.im/soasme/beeper.py.svg)](https://gitter.im/soasme/beeper.py?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/soasme/beeper.py.svg?branch=master)](https://travis-ci.org/soasme/beeper.py)
 
-Bundling virtualenv and your project as a relocatable tar.
+Bundling virtualenv.py, wheels and you project as a relocatable tar.
 
 That makes you have an enjoyment of deploy experience: fetch tar, extract tar, run install, and it' done!
 

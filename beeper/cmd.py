@@ -87,7 +87,6 @@ def run(command, capture=False, shell=None):
 def main():
     pass
 
-
 @main.command()
 def version():
     click.secho(__version__, fg='green')
@@ -117,6 +116,8 @@ def build(version, compress, conf):
     conf['version'] = version
     conf['manifest'] = set(conf['manifest'])
 
+    os.environ['DATA_DIR'] = os.path.join(os.getcwd(), '.beeper-data')
+
     run('rm -rf dist/')
     run('mkdir -p dist/')
 
@@ -125,11 +126,11 @@ def build(version, compress, conf):
 
     run('chmod +x install.sh')
 
-    run('rm -rf .beeper-data && mkdir -p .beeper-data')
-    run('pip download -d .beeper-data/ virtualenv')
-    run('cd .beeper-data && unzip `ls | grep virtualenv`')
-    run('pip wheel --wheel-dir .beeper-data/ -r requirements.txt')
-    run('cp requirements.txt .beeper-data/')
+    run('rm -rf $DATA_DIR && mkdir -p $DATA_DIR')
+    run('pip download -d .DATA_DIR/ virtualenv')
+    run('cd $DATA_DIR && unzip `ls | grep virtualenv`')
+    run('pip wheel --wheel-dir $DATA_DIR -r requirements.txt')
+    run('cp requirements.txt $DATA_DIR')
 
     for script in conf['scripts']:
         run(script)

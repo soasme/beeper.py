@@ -127,7 +127,7 @@ def build(version, compress, conf):
     run('chmod +x install.sh')
 
     run('rm -rf $DATA_DIR && mkdir -p $DATA_DIR')
-    run('pip download -d .DATA_DIR/ virtualenv')
+    run('pip download -d $DATA_DIR/ virtualenv')
     run('cd $DATA_DIR && unzip `ls | grep virtualenv`')
     run('pip wheel --wheel-dir $DATA_DIR -r requirements.txt')
     run('cp requirements.txt $DATA_DIR')

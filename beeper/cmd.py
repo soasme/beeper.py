@@ -141,7 +141,7 @@ def build(version, compress, conf):
         run(script)
 
     for file in conf['manifest']:
-        run('$WORK_DIR; cp -r %s $BUILD_DIR/' % file)
+        run('cd $WORK_DIR; cp -r %s $BUILD_DIR/' % file)
 
     manifest_files = ' '.join(
         conf['manifest'] | set(['install.sh', '.beeper-data'])

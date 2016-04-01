@@ -1,7 +1,9 @@
 application: test
 manifest:
-  - tests/hello.py
+  - main.py
 scripts:
-  - echo BEEPER > .beeper-data/MESSAGE
+  - echo BEEPER > $DATA_DIR/MESSAGE
+  - echo 'print "hello world"' > $BUILD_DIR/main.py
 postinstall:
-  - cp .beeper-data/MESSAGE .
+  - cp $DATA_DIR/MESSAGE .
+  - python main.py

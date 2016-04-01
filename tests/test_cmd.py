@@ -13,6 +13,7 @@ import pytest
 def setup_function(f):
     if 'venv/bin' not in os.environ['PATH']:
         os.environ['PATH'] = 'venv/bin:$PATH'
+
     if os.path.exists('dist/'):
         run('rm -rf dist/')
 
@@ -20,8 +21,11 @@ def teardown_function(f):
     if os.path.exists('dist/'):
         run('rm -rf dist/')
 
+def run_beeper(options):
+    run('beeper build %s --conf %s' % (options, os.path.join(os.getcwd(), 'tests/beeper.yml')))
+
 def test_compress():
-    run('beeper build --version 1 --conf tests/beeper.yml')
+    run_beeper('--version 1')
     assert os.path.exists('dist/test-1.tgz')
 
 def test_no_compress():
@@ -39,7 +43,7 @@ def test_file_included_in_manifest():
     for filename in (
             'dist/.beeper-data/virtualenv.py',
             'dist/.beeper-data/requirements.txt',
-            'dist/tests/hello.py',
+            'dist/main.py',
             'dist/install.sh',
         ):
         assert os.path.exists(filename)
@@ -51,5 +55,5 @@ def test_install_venv():
     assert os.path.exists('dist/venv/bin/python')
     assert os.path.exists('dist/venv/bin/pip')
     assert os.path.exists('dist/venv/bin/py.test')
-    with open('.beeper-data/MESSAGE') as f:
+    with open('dist/MESSAGE') as f:
         assert f.read() == 'BEEPER\n'

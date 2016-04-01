@@ -155,6 +155,7 @@ def build(version, compress, conf):
         files=manifest_files,
     )
     run('cd $BUILD_DIR;' + archive_cmd)
+    run('rm -rf $BUILD_DIR')
     run('ls $DIST_DIR')
 
 if __name__ == '__main__':

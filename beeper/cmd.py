@@ -147,7 +147,6 @@ def build(version, compress, conf):
         files=manifest_files,
     )
     run(archive_cmd)
-    run('rm -rf venv')
     run('ls $DIST_DIR')
 
 if __name__ == '__main__':

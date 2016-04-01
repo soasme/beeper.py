@@ -11,9 +11,6 @@ from click.testing import CliRunner
 import pytest
 
 def setup_function(f):
-    if 'venv/bin' not in os.environ['PATH']:
-        os.environ['PATH'] = 'venv/bin:$PATH'
-
     if os.path.exists('dist/'):
         run('rm -rf dist/')
 

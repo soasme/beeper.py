@@ -26,15 +26,15 @@ def test_compress():
     assert os.path.exists('dist/test-1.tgz')
 
 def test_no_compress():
-    run('beeper build --version 1 --no-compress --conf tests/beeper.yml')
+    run_beeper('--version 1 --no-compress')
     assert os.path.exists('dist/test-1.tar')
 
 def test_version_default_is_none():
-    run('beeper build --no-compress --conf tests/beeper.yml')
+    run_beeper('--no-compress')
     assert os.path.exists('dist/test-none.tar')
 
 def test_file_included_in_manifest():
-    run('beeper build --version 1 --conf tests/beeper.yml')
+    run_beeper('--version 1')
     run('cd dist; tar xvzf test-1.tgz')
     run('ls dist')
     for filename in (
@@ -46,7 +46,7 @@ def test_file_included_in_manifest():
         assert os.path.exists(filename)
 
 def test_install_venv():
-    run('beeper build --version 1 --conf tests/beeper.yml')
+    run_beeper('--version 1')
     run('cd dist; tar xvzf test-1.tgz')
     run('cd dist; ./install.sh')
     assert os.path.exists('dist/venv/bin/python')

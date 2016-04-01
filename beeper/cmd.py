@@ -2,6 +2,7 @@
 
 __version__ = '0.7.2'
 
+import tempfile
 import subprocess
 import os
 import sys
@@ -116,19 +117,21 @@ def build(version, compress, conf):
     conf['version'] = version
     conf['manifest'] = set(conf['manifest'])
 
-    os.environ['DATA_DIR'] = os.path.join(os.getcwd(), '.beeper-data')
-    os.environ['DIST_DIR'] = 'dist/'
+    os.environ['BUILD_DIR'] = tempfile.mkdtemp()
+    os.environ['DATA_DIR'] = os.path.join(os.environ['BUILD_DIR'], '.beeper-data')
+    os.environ['DIST_DIR'] = os.path.join(os.getcwd(), 'dist')
 
     run('rm -rf $DIST_DIR')
     run('mkdir -p $DIST_DIR')
 
-    with open('install.sh', 'wb') as f:
+    install_sh_file = os.path.join(os.environ['BUILD_DIR'], 'install.sh')
+    with open(install_sh_file, 'wb') as f:
         f.write(INSTALLER % conf)
 
-    run('chmod +x install.sh')
+    run('chmod +x $BUILD_DIR/install.sh')
 
     run('rm -rf $DATA_DIR && mkdir -p $DATA_DIR')
-    run('pip download -d $DATA_DIR/ virtualenv')
+    run('pip download -d $DATA_DIR virtualenv')
     run('cd $DATA_DIR && unzip `ls | grep virtualenv`')
     run('pip wheel --wheel-dir $DATA_DIR -r requirements.txt')
     run('cp requirements.txt $DATA_DIR')
@@ -146,7 +149,7 @@ def build(version, compress, conf):
         suffix='tgz' if compress else 'tar',
         files=manifest_files,
     )
-    run(archive_cmd)
+    run('cd $BUILD_DIR;' + archive_cmd)
     run('ls $DIST_DIR')
 
 if __name__ == '__main__':

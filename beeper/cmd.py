@@ -136,11 +136,12 @@ def build(version, compress, conf):
     run('cd $DATA_DIR && unzip `ls | grep virtualenv`')
     run('pip wheel --wheel-dir $DATA_DIR -r requirements.txt')
     run('cp $WORK_DIR/requirements.txt $DATA_DIR')
-    for file in conf['manifest']:
-        run('$WORK_DIR; cp -r %s $BUILD_DIR/' % file)
 
     for script in conf['scripts']:
         run(script)
+
+    for file in conf['manifest']:
+        run('$WORK_DIR; cp -r %s $BUILD_DIR/' % file)
 
     manifest_files = ' '.join(
         conf['manifest'] | set(['install.sh', '.beeper-data'])

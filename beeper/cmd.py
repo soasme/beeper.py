@@ -117,9 +117,10 @@ def build(version, compress, conf):
     conf['manifest'] = set(conf['manifest'])
 
     os.environ['DATA_DIR'] = os.path.join(os.getcwd(), '.beeper-data')
+    os.environ['DIST_DIR'] = 'dist/'
 
-    run('rm -rf dist/')
-    run('mkdir -p dist/')
+    run('rm -rf $DIST_DIR')
+    run('mkdir -p $DIST_DIR')
 
     with open('install.sh', 'wb') as f:
         f.write(INSTALLER % conf)
@@ -138,7 +139,7 @@ def build(version, compress, conf):
     manifest_files = ' '.join(
         conf['manifest'] | set(['install.sh', '.beeper-data'])
     )
-    archive_cmd = 'tar -c{z}f dist/{app}-{ver}.{suffix} {files}'.format(
+    archive_cmd = 'tar -c{z}f $DIST_DIR/{app}-{ver}.{suffix} {files}'.format(
         z='z' if compress else '',
         app=conf['application'],
         ver=conf['version'],
@@ -147,7 +148,7 @@ def build(version, compress, conf):
     )
     run(archive_cmd)
     run('rm -rf venv')
-    run('ls dist/')
+    run('ls $DIST_DIR')
 
 if __name__ == '__main__':
     main()

@@ -117,9 +117,10 @@ def build(version, compress, conf):
     conf['version'] = version
     conf['manifest'] = set(conf['manifest'])
 
+    os.environ['WORK_DIR'] = os.getcwd()
     os.environ['BUILD_DIR'] = tempfile.mkdtemp()
     os.environ['DATA_DIR'] = os.path.join(os.environ['BUILD_DIR'], '.beeper-data')
-    os.environ['DIST_DIR'] = os.path.join(os.getcwd(), 'dist')
+    os.environ['DIST_DIR'] = os.path.join(os.environ['WORK_DIR'], 'dist')
 
     run('rm -rf $DIST_DIR')
     run('mkdir -p $DIST_DIR')
@@ -134,7 +135,9 @@ def build(version, compress, conf):
     run('pip download -d $DATA_DIR virtualenv')
     run('cd $DATA_DIR && unzip `ls | grep virtualenv`')
     run('pip wheel --wheel-dir $DATA_DIR -r requirements.txt')
-    run('cp requirements.txt $DATA_DIR')
+    run('cp $WORK_DIR/requirements.txt $DATA_DIR')
+    for file in conf['manifest']:
+        run('$WORK_DIR; cp -r %s $BUILD_DIR/' % file)
 
     for script in conf['scripts']:
         run(script)
@@ -142,6 +145,7 @@ def build(version, compress, conf):
     manifest_files = ' '.join(
         conf['manifest'] | set(['install.sh', '.beeper-data'])
     )
+
     archive_cmd = 'tar -c{z}f $DIST_DIR/{app}-{ver}.{suffix} {files}'.format(
         z='z' if compress else '',
         app=conf['application'],

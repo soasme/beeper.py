@@ -2,7 +2,7 @@
 Bundle virtualenv and project to an artifact.
 """
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='beeper',
@@ -20,9 +20,11 @@ setup(
         'click>=1.0',
         'PyYAML>=3.11',
     ],
-    packages=['beeper'],
+    packages=find_packages(),
     package_data={
-        "": ["installer.sh"]
+        "": [
+            "builders/python_installer.sh",
+        ]
     },
     entry_points={
         'console_scripts': [

@@ -22,9 +22,9 @@ application: app
 manifest:
     - app/
     - manage.py
-scripts:
+postbuild:
     - npm install
-    - node_modules/fis/bin/fis release -r app/frontend/  -f app/frontend/fis-conf.js -mpod ./app
+    - ./node_modules/.bin/webpack
 postinstall:
     - echo "Done."
 ```

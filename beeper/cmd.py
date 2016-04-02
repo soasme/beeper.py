@@ -8,7 +8,16 @@ import os
 import sys
 import click
 
-from .builders.core import build as build_for_language
+from .builders.core import (
+        within_build_dir,
+        build_for_language,
+        set_env,
+        prepare_dist,
+        build_for_language,
+        run_postbuild,
+        dist_manifest,
+        make_tarball,
+)
 from .utils import parse_yaml, run
 
 @click.group()
@@ -41,40 +50,18 @@ def build(version, compress, conf):
     conf.setdefault('manifest', set())
     conf.setdefault('current_dir', run('pwd'))
     conf.setdefault('scripts', [])
+    conf['postbuild'] = conf['scripts']
     conf['version'] = version
     conf['manifest'] = set(conf['manifest'])
+    conf['compress'] = compress
 
-    os.environ['WORK_DIR'] = os.getcwd()
-    os.environ['BUILD_DIR'] = tempfile.mkdtemp()
-    os.environ['DATA_DIR'] = os.path.join(os.environ['BUILD_DIR'], '.beeper-data')
-    os.environ['DIST_DIR'] = os.path.join(os.environ['WORK_DIR'], 'dist')
-
-    run('rm -rf $DIST_DIR')
-    run('mkdir -p $DIST_DIR')
-
-
-    build_for_language(conf['language'], conf)
-
-    for script in conf['scripts']:
-        run(script)
-
-    for file in conf['manifest']:
-        run('cd $WORK_DIR; cp -r %s $BUILD_DIR/' % file)
-
-    manifest_files = ' '.join(
-        conf['manifest'] | set(['install.sh', '.beeper-data'])
-    )
-
-    archive_cmd = 'tar -c{z}f $DIST_DIR/{app}-{ver}.{suffix} {files}'.format(
-        z='z' if compress else '',
-        app=conf['application'],
-        ver=conf['version'],
-        suffix='tgz' if compress else 'tar',
-        files=manifest_files,
-    )
-    run('cd $BUILD_DIR;' + archive_cmd)
-    run('rm -rf $BUILD_DIR')
-    run('ls $DIST_DIR')
+    with within_build_dir():
+        set_env(conf)
+        prepare_dist(conf)
+        build_for_language(conf)
+        run_postbuild(conf)
+        dist_manifest(conf)
+        make_tarball(conf)
 
 if __name__ == '__main__':
     main()

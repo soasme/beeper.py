@@ -21,17 +21,21 @@ def teardown_function(f):
 def run_beeper(options):
     run('beeper build %s --conf %s' % (options, os.path.join(os.getcwd(), 'tests/beeper.yml')))
 
-def test_compress():
+def test_make_tgz():
     run_beeper('--version 1')
     assert os.path.exists('dist/test-1.tgz')
 
-def test_no_compress():
-    run_beeper('--version 1 --no-compress')
+def test_make_tar():
+    run_beeper('--version 1 --format tar')
     assert os.path.exists('dist/test-1.tar')
 
+def test_make_zip():
+    run_beeper('--version 1 --format zip')
+    assert os.path.exists('dist/test-1.zip')
+
 def test_version_default_is_none():
-    run_beeper('--no-compress')
-    assert os.path.exists('dist/test-none.tar')
+    run_beeper('')
+    assert os.path.exists('dist/test-none.tgz')
 
 def test_file_included_in_manifest():
     run_beeper('--version 1')

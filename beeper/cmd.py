@@ -16,7 +16,7 @@ from .builders.core import (
         build_for_language,
         run_postbuild,
         dist_manifest,
-        make_tarball,
+        make_target,
 )
 from .utils import parse_yaml, run
 
@@ -30,9 +30,9 @@ def version():
 
 @main.command()
 @click.option('--version', default='none')
-@click.option('--compress/--no-compress', default=True)
+@click.option('--format', default='tgz', type=click.Choice(['tar', 'tgz', 'zip']))
 @click.option('--conf', default='./beeper.yml')
-def build(version, compress, conf):
+def build(version, format, conf):
     try:
         conf = parse_yaml(conf)
     except:
@@ -53,7 +53,7 @@ def build(version, compress, conf):
     conf['postbuild'] = conf['scripts']
     conf['version'] = version
     conf['manifest'] = set(conf['manifest'])
-    conf['compress'] = compress
+    conf['format'] = format
 
     with within_build_dir():
         set_env(conf)
@@ -61,7 +61,7 @@ def build(version, compress, conf):
         build_for_language(conf)
         run_postbuild(conf)
         dist_manifest(conf)
-        make_tarball(conf)
+        make_target(conf)
 
 if __name__ == '__main__':
     main()

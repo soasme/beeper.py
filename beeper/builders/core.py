@@ -30,7 +30,7 @@ def dist_manifest(conf):
         run('cd $WORK_DIR; cp -r %s $BUILD_DIR/' % file)
 
 
-def make_tarball(conf, compress):
+def make_tarball(conf, compress, suffix):
     manifest_files = ' '.join(
         conf['manifest'] | set(['install.sh', '.beeper-data'])
     )
@@ -39,7 +39,7 @@ def make_tarball(conf, compress):
         z='z' if compress else '',
         app=conf['application'],
         ver=conf['version'],
-        suffix='tgz' if compress else 'tar',
+        suffix=suffix,
         files=manifest_files,
     )
 
@@ -58,9 +58,11 @@ def make_zip(conf):
 
 def make_target(conf):
     if conf['format'] == 'tar':
-        make_tarball(conf, compress=False)
+        make_tarball(conf, compress=False, suffix='tar')
     elif conf['format'] == 'tgz':
-        make_tarball(conf, compress=True)
+        make_tarball(conf, compress=True, suffix='tgz')
+    elif conf['format'] == 'tar.gz':
+        make_tarball(conf, compress=True, suffix='tar.gz')
     elif conf['format'] == 'zip':
         make_zip(conf)
     else:

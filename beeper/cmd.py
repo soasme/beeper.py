@@ -30,7 +30,7 @@ def version():
 
 @main.command()
 @click.option('--version', default='none')
-@click.option('--format', default='tgz', type=click.Choice(['tar', 'tgz', 'zip']))
+@click.option('--format', default='tgz', type=click.Choice(['tar', 'tgz', 'tar.gz', 'zip']))
 @click.option('--conf', default='./beeper.yml')
 def build(version, format, conf):
     try:

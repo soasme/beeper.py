@@ -30,20 +30,41 @@ def dist_manifest(conf):
         run('cd $WORK_DIR; cp -r %s $BUILD_DIR/' % file)
 
 
-def make_tarball(conf):
+def make_tarball(conf, compress):
     manifest_files = ' '.join(
         conf['manifest'] | set(['install.sh', '.beeper-data'])
     )
 
     archive_cmd = 'tar -c{z}f $DIST_DIR/{app}-{ver}.{suffix} {files}'.format(
-        z='z' if conf['compress']else '',
+        z='z' if compress else '',
         app=conf['application'],
         ver=conf['version'],
-        suffix='tgz' if conf['compress'] else 'tar',
+        suffix='tgz' if compress else 'tar',
         files=manifest_files,
     )
 
-    run('cd $BUILD_DIR;' + archive_cmd)
+    run('cd $BUILD_DIR; ' + archive_cmd)
+
+def make_zip(conf):
+    manifest_files = ' '.join(
+        conf['manifest'] | set(['install.sh', '.beeper-data'])
+    )
+    archive_cmd = 'zip -r $DIST_DIR/{app}-{ver}.zip {files}'.format(
+        app=conf['application'],
+        ver=conf['version'],
+        files=manifest_files,
+    )
+    run('cd $BUILD_DIR; ' + archive_cmd)
+
+def make_target(conf):
+    if conf['format'] == 'tar':
+        make_tarball(conf, compress=False)
+    elif conf['format'] == 'tgz':
+        make_tarball(conf, compress=True)
+    elif conf['format'] == 'zip':
+        make_zip(conf)
+    else:
+        raise Exception('Unknown target format: %s' % conf['format'])
 
 @contextmanager
 def within_build_dir():

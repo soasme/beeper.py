@@ -51,7 +51,10 @@ You can then distribute this file to remote servers and install it::
     deploy $ tar -xzf example-1.tgz
     deploy $ ./install.sh
 
+Beeper only support generate tar now, default gzip compressed. If you want to build a tar
+file without gz compressed, you can add `--no-compress` option::
 
+    $ beeper build --version 1 --no-compress
 
 
 .. toctree::

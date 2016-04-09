@@ -19,7 +19,7 @@ The principles of Beeper are:
 Beeper need you to have:
 
 * `wheel`, `virtualenv`, `pip` installed;
-* normally seen Unix command: `unzip`, `tar`, `grep`;
+* normally seen Unix command: `zip`, `unzip`, `tar`, `grep`;
 * `requirements.txt` in root of your project.
 
 You can get the tool directly from PyPI::
@@ -51,10 +51,13 @@ You can then distribute this file to remote servers and install it::
     deploy $ tar -xzf example-1.tgz
     deploy $ ./install.sh
 
-Beeper only support generate tar now, default gzip compressed. If you want to build a tar
-file without gz compressed, you can add `--no-compress` option::
+Beeper support 3 target format: `tar`, `tgz` or `tar.gz`, `zip`. You can control it
+by using option `--format`. For instance::
 
-    $ beeper build --version 1 --no-compress
+    $ beeper build --version 1 --format=tar
+    $ beeper build --version 1 --format=tar.gz
+    $ beeper build --version 1 --format=tgz
+    $ beeper build --version 1 --format=zip
 
 
 .. toctree::

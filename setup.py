@@ -17,7 +17,7 @@ setup(
     include_package_data=True,
     platforms='any',
     install_requires=[
-        'click>=1.0',
+        'click>=6.0',
         'PyYAML>=3.11',
     ],
     packages=find_packages(),

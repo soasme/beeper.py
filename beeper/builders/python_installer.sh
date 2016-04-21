@@ -31,4 +31,6 @@ cd "$HERE"
 . "$VIRTUAL_ENV/bin/activate"
 %(postinstall_commands)s
 
+rm -rf $DATA_DIR
+
 echo "Done."

@@ -1,12 +1,7 @@
-.. beeper documentation master file, created by
-   sphinx-quickstart on Sat Apr  2 06:53:15 2016.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Welcome to beeper's documentation!
 ==================================
 
-Beeper is a tool for Python that simplified distribution on Unix servers.
+Beeper is a command-line tool to simplify distribution on Unix servers.
 It defines a compact and self-contained way for offline installation.
 The aim of beeper is to pre-download all dependencies and pre-compile all assets before deployment.
 

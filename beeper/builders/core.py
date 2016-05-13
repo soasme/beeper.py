@@ -77,9 +77,8 @@ def within_build_dir():
     try:
         os.environ['BUILD_DIR'] = tempfile.mkdtemp()
         yield
-    except Exception as exc:
+    finally:
         run('rm -rf $BUILD_DIR')
-        raise exc
 
 def set_env(conf=None):
     os.environ['WORK_DIR'] = os.getcwd()

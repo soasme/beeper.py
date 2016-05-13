@@ -75,7 +75,7 @@ def make_target(conf):
 @contextmanager
 def within_build_dir():
     try:
-        os.environ['BUILD_DIR'] = tempfile.mkdtemp()
+        os.environ['BUILD_DIR'] = tempfile.mkdtemp(prefix='beeper_build-')
         yield
     finally:
         run('rm -rf $BUILD_DIR')

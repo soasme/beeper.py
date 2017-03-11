@@ -7,13 +7,13 @@ Bundling virtualenv.py, wheels and you project as a relocatable tar.
 
 That makes you have an enjoyment of deploy experience: fetch tar, extract tar, run install, and it' done!
 
-## Install
+## Installation
 
-Use pip:
+Using pip:
 
     $ pip install beeper
 
-## Writer your `beeper.yml`
+## Write your `beeper.yml`
 
 Example:
 
@@ -56,7 +56,7 @@ app/
 manage.py
 ```
 
-## Distribute your application to server
+## Distribute package to server
 
 A simple example of how to deploy a tar: use scp to upload tar to server, extract tar, run install.sh, and boom, run your server:
 

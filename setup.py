@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='beeper',
-    version='0.9.0',
+    version='0.9.1',
     url='https://github.com/soasme/beeper.py',
     license='MIT',
     author='Ju Lin',

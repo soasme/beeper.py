@@ -19,6 +19,7 @@ setup(
     install_requires=[
         'click>=6.0',
         'PyYAML>=3.11',
+        'wheel>=0.10.0',
     ],
     packages=find_packages(),
     package_data={

@@ -10,8 +10,13 @@ def parse_yaml(file):
         import yaml
     except ImportError:
         click.abort('Have you installed PyYAML?')
-    with open(file, 'rb') as f:
-        return yaml.load(f.read())
+    try:
+        with open(file, 'rb') as f:
+            return yaml.load(f.read())
+    except IOError:
+        click.abort("Yaml configuration not found.")
+    except yaml.parser.ParserError:
+        click.abort("Invalid Yaml.")
 
 
 class _AttributeString(str):

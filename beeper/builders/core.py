@@ -9,8 +9,9 @@ from ..utils import run
 def build_for_language(conf):
     language = conf['language']
     if language == 'python':
-        from .python import build as pybuild
+        from .python import build as pybuild, cleanup as pycleanup
         pybuild(conf)
+        pycleanup(conf)
     else:
         raise NotImplementedError('Not Supported Language ;(')
 

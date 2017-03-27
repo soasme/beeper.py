@@ -22,4 +22,5 @@ def build(conf):
 
 def cleanup(conf):
     # XXX: This is probably not best solution. It removes files in user space.
-    run("find $WORK_DIR -type f -name '*.py[c|o]' -exec rm -rf {} \;")
+    run("find $WORK_DIR -type f -name '*.py[c|o]' -delete")
+    run("find $WORK_DIR -name '__pycache__' -delete")
